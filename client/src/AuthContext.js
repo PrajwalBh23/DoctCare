@@ -4,7 +4,8 @@ import { jwtDecode } from 'jwt-decode'; // Fixed import
 
 const AuthContext = createContext();
 
-export const API = "http://localhost:5000";
+// export const API = "http://localhost:5000";
+export const API = "https://doctcare.onrender.com";
 
 export const useAuth = () => useContext(AuthContext);
 
