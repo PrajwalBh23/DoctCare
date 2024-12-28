@@ -1,0 +1,105 @@
+.hero {
+  padding-block: 0px 140px; /* Adjusts padding for the hero section */
+  background: 
+    linear-gradient(to left, rgba(111, 111, 111, 0.305), rgba(0, 0, 0, 0.7)),
+    linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(68, 68, 68, 0.305)),
+    url('../images/doc.jpg'); 
+  background-blend-mode: multiply;
+  background-size: cover; /* Ensures the image covers the entire hero section */
+  background-position: center; /* Centers the image */
+  height: 70vh; /* Ensures the hero section takes the full viewport height */
+  max-height: 80vh;
+  overflow: hidden; /* Prevents any scrolling inside the hero section */
+}
+
+.hero-content {
+  margin-block-end: 80px; /* Margin below the hero content */
+  margin-top: 100px;
+  max-width: 600px; /* Adjust the max width of the hero content */
+}
+
+.hero-title {
+  font-size: 5rem; /* Large font size for the main title */
+  color: var(--white); /* White color for the text */
+  margin-bottom: 20px; /* Spacing below the title */
+}
+
+.hero-text {
+  font-size: var(--fs-5); /* Font size for the description text */
+  margin-block: 25px 40px; /* Top and bottom margins for spacing */
+  color: var(--cadet-blue-crayola); /* White color for the text */
+}
+
+.btn-primary {
+  position: relative;
+  background-color: var(--blue-crayola); /* Blue background color */
+  color: var(--white); /* White text color */
+  border-radius: var(--radius-12); /* Rounded corners */
+  font-weight: var(--fw-700); /* Bold font weight */
+  padding: 13px 30px; /* Padding around the button text */
+  overflow: hidden; /* Hides any overflow */
+  z-index: 1; /* Ensures button appears above other elements */
+  text-decoration: none; /* Removes underline from link */
+  display: inline-block; /* Allows setting dimensions and margins */
+  font-size: var(--fs-6); /* Font size for the button text */
+  transition: var(--transition-1); /* Smooth transition for hover effects */
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: -50px; /* Moves gradient background outside the button */
+  background-image: var(--gradient); /* Gradient background */
+  transform: translateX(-100%); /* Initially hides the gradient */
+  opacity: 0; /* Initially invisible */
+  z-index: -1; /* Places gradient behind button text */
+  transition: var(--transition-2); /* Smooth transition for hover effects */
+}
+
+.btn-primary:hover::after,
+.btn-primary:focus::after {
+  transform: translateX(0); /* Shows gradient on hover/focus */
+  opacity: 1; /* Makes gradient visible */
+}
+
+.hero-banner {
+  flex: 1; /* Allows banner to take up available space */
+  display: flex;
+  justify-content: center; /* Centers the banner image */
+}
+
+.hero-banner img {
+  max-width: 90%; /* Ensures the image scales properly */
+  height: auto; /* Maintains aspect ratio of the image */
+}
+
+/* Additional container styles if needed */
+.header .container,
+.hero .container,
+.trend .container {
+display: flex;
+justify-content: space-between; /* Space between content */
+align-items: center; /* Vertically centers content */
+gap: 20px; /* Space between hero-content and hero-banner */
+padding-inline: 85px; /* Padding on the left and right */
+}
+
+.header .btn-group {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+.btn-group {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between buttons and search bar */
+}
+
+
+.trend {
+  background-color: var(--eerie-black-1);/* Dark background for the trend section */
+  padding: 0px 130px;
+  padding-block: var(--section-padding);
+}

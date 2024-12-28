@@ -1,0 +1,102 @@
+.ai-guidance-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #e0e0e0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: auto;
+    margin-top: 20px;
+  }
+  
+  h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    color: #555;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .symptom-list {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .symptom-item {
+    margin: 8px 10px;
+  }
+  
+  label {
+    font-size: 16px;
+    color: #444;
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  
+  .generate-button {
+    display: block;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: auto;
+  }
+  
+  .generate-button:hover {
+    background-color: #45a049;
+  }
+  
+  .prescription-section {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #ececec;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+
+  .prescription-section h2{
+    color: black;
+    text-align: center;
+  }
+
+  .prescription-section li{
+    color: black;
+    margin-left: 5px;
+  }
+  
+  .warning-text {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .print-button {
+    margin: auto;
+    margin-top: 20px;
+    display: block;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .print-button:hover {
+    background-color: #218838;
+  }
+  
