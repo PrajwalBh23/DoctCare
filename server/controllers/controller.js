@@ -5,7 +5,7 @@ const Doctor = require('../model/Doctors.js');
 const get_details = async (req, res) => {
   try {
     const userId = req.user.id; // Assuming you're getting user ID from the JWT or session
-    const user = await User.findById(userId, 'name email phone') || await Doctor.findById(userId, 'myImage name email phone education '); // Fetch only name, email, and phone
+    const user = await User.findById(userId, 'name email phone age weight') || await Doctor.findById(userId, 'myImage name email phone education age weight'); // Fetch only name, email, and phone
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -155,6 +155,13 @@ const meeting = async (req, res) => {
     const expert = await Doctor.findById(doctor);
 
     const userId = expert.meetingwith;
+    const user = await User.findById(userId); 
+
+    expert.age = user.age; 
+    expert.weight = user.weight; 
+    
+    await expert.save();
+
 
     if (!expert) {
       return res.status(404).json({ success: false, message: 'Expert not found' });

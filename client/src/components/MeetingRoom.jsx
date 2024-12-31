@@ -63,7 +63,7 @@ const Sidebar = ({ children }) => {
   const [idToCall, setIdToCall] = useState('');
   const [showJoinForm, setShowJoinForm] = useState(false);
   const classes = useStyles();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const { user } = useAuth();
   const location = useLocation(); // Use useLocation to access route state
 
@@ -80,9 +80,18 @@ const Sidebar = ({ children }) => {
   };
 
   const handleJoinMeetingClick = () => {
-    setShowJoinForm(true);
+    // setShowJoinForm(true);
+    navigator.clipboard.readText()  // Read the copied URL from the clipboard
+      .then((copiedUrl) => {
+        roomCall(copiedUrl);  // Send the copied URL to roomCall
+        navigate(`/meeting/room/${copiedUrl}`);  // Navigate to the room with the given ID
+      })
+      .catch((error) => {
+        console.error('Failed to read clipboard: ', error);  // Handle error if reading fails
+      });
   };
 
+  //NOT IN USE 
   const handleJoinMeeting = () => {
     roomCall(idToCall); // Start the room call
     navigate(`/meeting/room/${idToCall}`); // Navigate to the room with the given ID

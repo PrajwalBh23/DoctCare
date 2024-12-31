@@ -187,11 +187,12 @@ const Videocall = ({ children }) => {
   const [file, setFile] = useState(null);
   const [fileContent, setFileContent] = useState(null);
   const [open, setOpen] = useState(false);
+  const [age, setAge] = useState('');
+  const [weight, setWeight] = useState('');
 
   const toggleDialog = () => {
     setOpen(!open);
   };
-
 
 
   const { name, callAccepted, myVideo, userVideo, callEnded, call, stream, setStream, messages, handleSendMessage, handleSendFile } = useContext(SocketContext);
@@ -208,6 +209,31 @@ const Videocall = ({ children }) => {
         console.error("Error accessing media devices.", err);
       });
   }, [myVideo, setStream]);
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+        const token = localStorage.getItem('token'); // Get the token from localStorage
+        if (token) {
+          try {
+            const response = await axios.get(`${API}/routes/get_details`, {
+              headers: {
+                Authorization: `Bearer ${token}`, // Send token in request header
+              },
+            });
+
+            // Assuming the response contains age and weight
+            const { age, weight } = response.data;
+            setAge(age);
+            setWeight(weight);
+          } catch (error) {
+            console.error('Error fetching profile data:', error);
+          }
+        }
+    };
+
+    fetchUserDetails();
+  }); 
+
 
   useEffect(() => {
     if (stream) {
@@ -437,17 +463,16 @@ const Videocall = ({ children }) => {
               backgroundColor: '#212121', // Dark background for the title
               color: '#fff', // White text color
               padding: '8px',
-              textAlign:'center',
+              textAlign: 'center',
               fontSize: '2.20rem',
             }}
           >
             Health View
           </DialogTitle>
           <DialogContent style={{ backgroundColor: '#303030', padding: '16px' }}>
-            <Grid container spacing={2}>
 
-              {/* First Row */}
-              <Grid item xs={6}>
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
                 <Paper
                   elevation={3}
                   style={{
@@ -455,6 +480,7 @@ const Videocall = ({ children }) => {
                     textAlign: 'center',
                     backgroundColor: '#424242',
                     color: '#fff',
+                    // width: '50%'
                   }}
                 >
                   <Typography variant="subtitle1">Temperature</Typography>
@@ -471,7 +497,7 @@ const Videocall = ({ children }) => {
                   </Box>
                 </Paper>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <Paper
                   elevation={3}
                   style={{
@@ -495,9 +521,7 @@ const Videocall = ({ children }) => {
                   </Box>
                 </Paper>
               </Grid>
-
-              {/* Second Row */}
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <Paper
                   elevation={3}
                   style={{
@@ -521,7 +545,54 @@ const Videocall = ({ children }) => {
                   </Box>
                 </Paper>
               </Grid>
-              
+              <Grid item xs={4}>
+                <Paper
+                  elevation={3}
+                  style={{
+                    padding: '10px',
+                    textAlign: 'center',
+                    backgroundColor: '#424242',
+                    color: '#fff',
+                  }}
+                >
+                  <Typography variant="subtitle1">Age</Typography>
+                  <Box
+                    border={1}
+                    padding="8px"
+                    borderRadius="5px"
+                    style={{
+                      backgroundColor: '#000',
+                      color: '#00e676',
+                    }}
+                  >
+                    {age} Yrs.
+                  </Box>
+                </Paper>
+              </Grid>
+              <Grid item xs={4}>
+                <Paper
+                  elevation={3}
+                  style={{
+                    padding: '10px',
+                    textAlign: 'center',
+                    backgroundColor: '#424242',
+                    color: '#fff',
+                  }}
+                >
+                  <Typography variant="subtitle1">Weight</Typography>
+                  <Box
+                    border={1}
+                    padding="8px"
+                    borderRadius="5px"
+                    style={{
+                      backgroundColor: '#000',
+                      color: '#00e676',
+                    }}
+                  >
+                    {weight} kg
+                  </Box>
+                </Paper>
+              </Grid>
             </Grid>
           </DialogContent>
         </Dialog>

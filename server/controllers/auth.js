@@ -12,7 +12,7 @@ const register = async (req, res, next) => {
         const { name, email, phone, password, isCounsellor } = req.body;
 
         // Check if all required fields are provided
-        if (!name || !email || !password || !phone) {
+        if (!name || !password || !phone) {
             return res.status(422).json({ error: "Please fill in all the fields properly" });
         }
 
@@ -61,15 +61,15 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        const { phone, password, age, weight } = req.body;
 
         // Validate the request body
-        if (!email || !password) {
+        if (!phone || !password) {
             return res.status(400).json({ error: 'Please fill in the data' });
         }
 
         // Find the user in either User or Professional collections
-        const user = await User.findOne({ email }) || await Doctor.findOne({ email });
+        const user = await User.findOne({ phone }) || await Doctor.findOne({ phone });
 
         // If user not found, return an error
         if (!user) {
@@ -84,8 +84,20 @@ const login = async (req, res, next) => {
             return res.status(401).json({ error: "Invalid Credentials" });
         }
 
-        // Check if the user is a counsellor (Professional)
+        // Check if the user is a doctor (Professional)
         const isCounsellor = user instanceof Doctor;
+
+        //saving age and weight in database
+        if (!isCounsellor) {
+            // Validate if age and weight are provided
+            if (age === undefined || weight === undefined) {
+                return res.status(400).json({ error: 'Please provide both age and weight' });
+            }
+
+            user.age = age;
+            user.weight = weight;
+            await user.save();  
+        }
 
         // Generate JWT token with isCounsellor flag if the user is a counsellor
         const tokenPayload = { id: user._id };

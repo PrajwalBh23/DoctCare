@@ -7,7 +7,7 @@ import {
   Button,
   Typography,
 } from '@mui/material';
-import { useAuth, API } from '../AuthContext'; 
+import { useAuth, API } from '../AuthContext';
 import './Styles/Loginbox.css';
 
 const LoginBox = ({ open, handleClose, isRegistering }) => {
@@ -18,6 +18,8 @@ const LoginBox = ({ open, handleClose, isRegistering }) => {
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState(''); // Keep phone number empty initially
   const [newPassword, setNewPassword] = useState('');
+  const [age, setAge] = useState('');
+  const [weight, setWeight] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [isCounsellor, setIsCounsellor] = useState(false);
@@ -39,7 +41,7 @@ const LoginBox = ({ open, handleClose, isRegistering }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ phone, password, age, weight }),
       });
 
       if (!response.ok) {
@@ -64,7 +66,7 @@ const LoginBox = ({ open, handleClose, isRegistering }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, phone, password, isCounsellor  }),
+        body: JSON.stringify({ name, email, phone, password, isCounsellor }),
       });
 
       if (!response.ok) {
@@ -129,7 +131,7 @@ const LoginBox = ({ open, handleClose, isRegistering }) => {
             {isForgotPassword ? (
               <>
                 <TextField
-                  label="Email"
+                  label="Phone"
                   type="email"
                   fullWidth
                   value={email}
@@ -220,43 +222,43 @@ const LoginBox = ({ open, handleClose, isRegistering }) => {
                     }}
                   />
                 )}
-                <TextField
-                  label="Email"
-                  type="email"
-                  fullWidth
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  inputProps={{
-                    style: { fontSize: '16px' },
-                  }}
-                  InputLabelProps={{
-                    style: { fontSize: '16px' },
-                  }}
-                  style={{
-                    marginBottom: '20px',
-                    height: '50px',
-                  }}
-                />
                 {isRegisteringState && (
-                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-                    <TextField
-                      label="Phone Number"
-                      fullWidth
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      inputProps={{
-                        style: { fontSize: '16px' }, // Consistent font size and height
-                      }}
-                      InputLabelProps={{
-                        style: { fontSize: '16px' }, // Consistent font size for label
-                      }}
-                      style={{
-                        height: '50px',
-                        flex: 1, // Allow TextField to take remaining space
-                      }}
-                    />
-                  </div>
+                  <TextField
+                    label="Email"
+                    type="email"
+                    fullWidth
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    inputProps={{
+                      style: { fontSize: '16px' },
+                    }}
+                    InputLabelProps={{
+                      style: { fontSize: '16px' },
+                    }}
+                    style={{
+                      marginBottom: '20px',
+                      height: '50px',
+                    }}
+                  />
                 )}
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+                  <TextField
+                    label="Phone Number"
+                    fullWidth
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    inputProps={{
+                      style: { fontSize: '16px' }, // Consistent font size and height
+                    }}
+                    InputLabelProps={{
+                      style: { fontSize: '16px' }, // Consistent font size for label
+                    }}
+                    style={{
+                      height: '50px',
+                      flex: 1, // Allow TextField to take remaining space
+                    }}
+                  />
+                </div>
                 <TextField
                   label="Password"
                   type="password"
@@ -275,67 +277,75 @@ const LoginBox = ({ open, handleClose, isRegistering }) => {
                   }}
                 />
                 {isRegisteringState && (
-                    <label
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '20px',
-                        fontSize: '14px',
-                      }}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={isCounsellor} // Updated to checked={isCounsellor}
+                  <label
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '20px',
+                      fontSize: '14px',
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={isCounsellor} // Updated to checked={isCounsellor}
                       onChange={(e) => setIsCounsellor(e.target.checked)}
-                        style={{
-                          width: '14px',
-                          height: '14px',
-                          marginRight: '4px',
-                        }}
-                      />
-                      Register as Doctor
-                    </label>
+                      style={{
+                        width: '14px',
+                        height: '14px',
+                        marginRight: '4px',
+                      }}
+                      disabled
+                    />
+                    Register as Doctor
+                  </label>
                 )}
                 {!isRegisteringState && (
                   <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '30px',
+                  }}
+                >
+                  <TextField
+                    label="Age (in yrs.)"
+                    fullWidth
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                    inputProps={{
+                      style: { fontSize: '16px', height: '20px' },
                     }}
-                  >
-                    <label
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '20px',
-                        fontSize: '14px',
-                      }}
-                    >
-                      <input
-                        type="checkbox"
-                        style={{
-                          width: '14px',
-                          height: '14px',
-                          marginRight: '4px',
-                        }}
-                      />
-                      Remember me
-                    </label>
-                    <Typography
-                      variant="caption"
-                      style={{
-                        marginBottom: '20px',
-                        cursor: 'pointer',
-                        fontSize: '14px',
-                        textDecoration: 'underline',
-                        color: '#888',
-                      }}
-                      onClick={handleForgotPassword}
-                    >
-                      Forgot Password?
-                    </Typography>
-                  </div>
+                    InputLabelProps={{
+                      style: { fontSize: '16px', height: '20px' },
+                    }}
+                    style={{
+                      marginBottom: '20px',
+                      height: '20px',
+                      flex: 1, // Ensures the input takes equal space
+                      marginRight: '10px', // Adds space between Age and Weight inputs
+                    }}
+                  />
+                
+                  <TextField
+                    label="Weight (in kg)"
+                    fullWidth
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    inputProps={{
+                      style: { fontSize: '16px', height: '20px' },
+                    }}
+                    InputLabelProps={{
+                      style: { fontSize: '16px', height: '20px' },
+                    }}
+                    style={{
+                      marginBottom: '20px',
+                      height: '20px',
+                      flex: 1, // Ensures the input takes equal space
+                    }}
+                  />
+                </div>
+                
                 )}
                 <Button
                   onClick={isRegisteringState ? handleRegister : handleLogin}

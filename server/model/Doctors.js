@@ -11,7 +11,7 @@ const userSchema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        // unique: true
     },
     phone: {
         type: Number,
@@ -20,7 +20,7 @@ const userSchema = new Schema({
     },
     email: {
         type: String,
-        required: true,
+        // required: true,
         unique: true
     },
     password: {
@@ -38,6 +38,12 @@ const userSchema = new Schema({
     meetingwith:{
         type: String,
         default: '',
+    },
+    age:{
+        type: String,
+    },
+    weight:{
+        type: String,
     },
     tokens: [
         {

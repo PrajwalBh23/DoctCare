@@ -1,6 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from './Header';
 import './Styles/ai.css';
+import { useAuth } from '../AuthContext'; // Assuming you have an AuthContext for managing authentication
+import LoginDialog from './Loginbox'; // Assuming you have a LoginBox component
+import { useNavigate } from 'react-router-dom';
 
 const symptomData = {
   "Fever": ["Calpol", "Paracip"],
@@ -21,6 +24,10 @@ export default function AI_Guidance() {
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [prescription, setPrescription] = useState([]);
   const prescriptionRef = useRef();
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false); // Open/close state for login dialog
+  const { loginOrNot, login } = useAuth(); // Assuming useAuth provides login status and login function
+  const navigate = useNavigate();
 
   const handleSymptomChange = (symptom) => {
     setSelectedSymptoms((prev) =>
@@ -44,6 +51,36 @@ export default function AI_Guidance() {
     document.body.innerHTML = printContents;
     window.print();
     document.body.innerHTML = originalContents;
+  };
+
+  const handleCloseLoginDialog = () => {
+    setLoginDialogOpen(false);
+    // If the user is still not logged in, navigate to home
+    if (!localStorage.getItem('token')) {
+      navigate('/');
+    }
+  };
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const loggedIn = await loginOrNot();
+      setIsLoggedIn(loggedIn);
+      if (!loggedIn) {
+        setLoginDialogOpen(true);
+      }
+    };
+    checkLoginStatus();
+  }, [loginOrNot]);
+
+  const handleLogin = async () => {
+    try {
+      await login();
+      setIsLoggedIn(true); // Set login status after successful login
+      setLoginDialogOpen(false); // Close the login dialog
+    } catch (error) {
+      console.error('Login failed:', error);
+      navigate('/'); // Redirect to home if login fails
+    }
   };
 
   return (
@@ -92,6 +129,13 @@ export default function AI_Guidance() {
           </>
         )}
       </div>
+      {!isLoggedIn && (
+        <LoginDialog
+          open={loginDialogOpen}
+          handleClose={handleCloseLoginDialog}
+          handleLogin={handleLogin}
+        />
+      )}
     </>
   );
 }
